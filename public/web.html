@@ -421,9 +421,9 @@
     <div class="location-bar" id="locationBar">
       <div>
         <div class="loc-label">ACTIVE LOCATION</div>
-        <div class="loc-name" id="locNameDisplay">Home (KYDRO-HOME)</div>
+        <div class="loc-name" id="locNameDisplay">No Home Connected (Tap to Connect)</div>
       </div>
-      <div class="loc-switch-btn">Switch Home ▾</div>
+      <div class="loc-switch-btn">Connect / Switch ▾</div>
     </div>
 
     <!-- Today's Status Hero Card -->
@@ -506,7 +506,7 @@
 
   <script>
     const API_BASE = 'https://kynx-backend.onrender.com';
-    let currentGroupCode = localStorage.getItem('kydro_group_code') || 'KYDRO-HOME';
+    let currentGroupCode = localStorage.getItem('kydro_group_code') || '';
     let currentUserName = localStorage.getItem('kydro_user_name') || 'Web User';
     let selectedLitres = 20;
     let todayData = null;
@@ -538,7 +538,12 @@
     const btnConflictConfirm = document.getElementById('btnConflictConfirm');
 
     // Init
-    locNameDisplay.textContent = currentGroupCode;
+    if (currentGroupCode) {
+      locNameDisplay.textContent = currentGroupCode;
+    } else {
+      locNameDisplay.textContent = 'No Location Set (Tap to Connect)';
+      homeModal.classList.add('active');
+    }
     userNameInput.value = currentUserName;
     statusDate.textContent = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -590,6 +595,7 @@
 
     // Fetch Today's Delivery
     async function fetchTodayStatus() {
+      if (!currentGroupCode) return;
       try {
         const res = await fetch(`${API_BASE}/api/kydro/status/today?group_code=${encodeURIComponent(currentGroupCode)}`);
         if (res.ok) {
@@ -622,6 +628,7 @@
 
     // Fetch Monthly History
     async function fetchMonthlyHistory() {
+      if (!currentGroupCode) return;
       try {
         const d = new Date();
         const monthStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
@@ -640,6 +647,11 @@
 
     // Mark Present & Absent actions with conflict check
     document.getElementById('btnPresent').addEventListener('click', () => {
+      if (!currentGroupCode) {
+        homeModal.classList.add('active');
+        showToast('⚠️ Pehle apna Group Code set karein!');
+        return;
+      }
       const note = document.getElementById('noteInput').value.trim();
       if (todayData && todayData.status === 'PRESENT') {
         // Show conflict warning
@@ -653,6 +665,11 @@
     });
 
     document.getElementById('btnAbsent').addEventListener('click', () => {
+      if (!currentGroupCode) {
+        homeModal.classList.add('active');
+        showToast('⚠️ Pehle apna Group Code set karein!');
+        return;
+      }
       const note = document.getElementById('noteInput').value.trim();
       if (todayData && todayData.status === 'PRESENT') {
         conflictTitle.textContent = '⚠️ Conflict Warning!';
@@ -708,6 +725,12 @@
 
     // Real-time WebSockets
     function initWebSocket() {
+      if (!currentGroupCode) {
+        liveChip.classList.add('disconnected');
+        liveText.textContent = 'NO HOME SET';
+        return;
+      }
+
       if (ws) {
         ws.close();
       }
