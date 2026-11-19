@@ -1,0 +1,20 @@
+{
+  "app_name": "KYDRO",
+  "tagline": "TRACK EVERY DROP.",
+  "latest_version": "1.0.0",
+  "version_code": 1,
+  "release_date": "2026-11-19",
+  "download_url": "/download/apk",
+  "apk_filename": "KYDRO.apk",
+  "file_size": "17.1 MB",
+  "sha256": "",
+  "features": [
+    "Multi-Device Real-Time Cloud Sync (10+ phones)",
+    "Instant Android Notification Alert on delivery",
+    "Duplicate & Conflict Safeguards (Zero Misunderstandings)",
+    "Water Bill Calculator (Default ₹25 per 20L Camper)",
+    "Multi-Home & Location Switcher (Switch between multiple houses)",
+    "1-Tap WhatsApp Bill & Invite Sharing",
+    "Futuristic Obsidian Glass Aesthetic & Ripple Glow Animations"
+  ]
+}

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KYDRO Web Portal - Live Water Sync</title>
+  <link rel="icon" type="image/png" href="/assets/kydro_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    /* Web App Portal Styles */
+    .web-portal-container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 16px 80px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Top Bar */
+    .portal-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .portal-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .portal-brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1.5px solid var(--neon-cyan);
+      box-shadow: 0 0 15px var(--neon-cyan-glow);
+    }
+
+    .portal-brand-text h2 {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: var(--chrome-white);
+      line-height: 1.1;
+    }
+
+    .portal-brand-text span {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      letter-spacing: 1px;
+    }
+
+    .live-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(11, 23, 56, 0.8);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--chrome-white);
+    }
+
+    .live-chip .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--water-present);
+      box-shadow: 0 0 8px var(--water-present);
+      animation: pulse 1.5s infinite;
+    }
+
+    .live-chip.disconnected .pulse-dot {
+      background: var(--water-absent);
+      box-shadow: 0 0 8px var(--water-absent);
+    }
+
+    /* Location Bar */
+    .location-bar {
+      background: var(--card-bg);
+      border: 1.2px solid rgba(0, 210, 255, 0.4);
+      border-radius: 18px;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      backdrop-filter: blur(16px);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .location-bar:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px var(--neon-cyan-glow);
+    }
+
+    .loc-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--neon-cyan-bright);
+    }
+
+    .loc-name {
+      font-size: 16px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--chrome-white);
+    }
+
+    .loc-switch-btn {
+      font-size: 12px;
+      color: var(--neon-cyan);
+      font-weight: 700;
+      background: rgba(0, 210, 255, 0.12);
+      padding: 6px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+    }
+
+    /* Status Hero Card */
+    .status-hero {
+      background: rgba(11, 23, 56, 0.85);
+      border: 1.5px solid rgba(0, 210, 255, 0.4);
+      border-radius: 26px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    }
+
+    .status-hero.present {
+      border-color: var(--water-present);
+      box-shadow: 0 0 35px var(--water-present-glow);
+    }
+
+    .status-hero.absent {
+      border-color: var(--water-absent);
+      box-shadow: 0 0 35px var(--water-absent-glow);
+    }
+
+    .status-date {
+      font-size: 12px;
+      color: var(--chrome-dark);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .status-main-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .status-hero.present .status-main-badge {
+      background: rgba(0, 245, 160, 0.15);
+      color: var(--water-present);
+      border: 1px solid var(--water-present);
+    }
+
+    .status-hero.absent .status-main-badge {
+      background: rgba(255, 42, 85, 0.15);
+      color: var(--water-absent);
+      border: 1px solid var(--water-absent);
+    }
+
+    .status-hero.not-logged .status-main-badge {
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--water-gold);
+      border: 1px solid var(--water-gold);
+    }
+
+    .status-meta {
+      font-size: 13px;
+      color: var(--chrome-silver);
+    }
+
+    .status-meta strong {
+      color: var(--chrome-white);
+    }
+
+    /* Action Card */
+    .action-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(16px);
+    }
+
+    .qty-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .qty-btn {
+      flex: 1;
+      padding: 10px 0;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid rgba(30, 58, 95, 0.8);
+      color: var(--chrome-silver);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .qty-btn.active {
+      background: var(--neon-cyan);
+      color: var(--bg-dark);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px var(--neon-cyan-glow);
+    }
+
+    .btn-mark-present {
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--electric-blue) 100%);
+      color: var(--bg-dark);
+      font-weight: 900;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--neon-cyan-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      transition: all 0.25s;
+    }
+
+    .btn-mark-present:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 210, 255, 0.6);
+    }
+
+    .btn-mark-absent {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255, 42, 85, 0.1);
+      border: 1.2px solid var(--water-absent);
+      color: var(--water-absent);
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .btn-mark-absent:hover {
+      background: var(--water-absent);
+      color: white;
+    }
+
+    /* User Name input */
+    .input-field {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid rgba(30, 58, 95, 0.8);
+      color: white;
+      font-size: 14px;
+      margin-bottom: 14px;
+      outline: none;
+    }
+
+    .input-field:focus {
+      border-color: var(--neon-cyan);
+    }
+
+    /* Modal Popup */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(4, 7, 20, 0.85);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: #0b1738;
+      border: 1.5px solid var(--neon-cyan);
+      box-shadow: 0 0 40px var(--neon-cyan-glow);
+      border-radius: 24px;
+      padding: 28px;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .modal-box.danger {
+      border-color: var(--water-absent);
+      box-shadow: 0 0 40px var(--water-absent-glow);
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .modal-msg {
+      font-size: 14px;
+      color: var(--chrome-silver);
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    .modal-btn-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .modal-btn-row button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-confirm {
+      background: var(--neon-cyan);
+      color: var(--bg-dark);
+    }
+
+    .btn-cancel {
+      background: rgba(30, 58, 95, 0.6);
+      color: var(--chrome-silver);
+    }
+
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(11, 23, 56, 0.95);
+      border: 1.2px solid var(--neon-cyan);
+      box-shadow: 0 0 25px var(--neon-cyan-glow);
+      padding: 12px 24px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 13px;
+      color: white;
+      z-index: 2000;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Aura -->
+  <div class="aura-container">
+    <div class="aura-blob aura-blob-1"></div>
+    <div class="aura-blob aura-blob-2"></div>
+  </div>
+
+  <div class="web-portal-container">
+
+    <!-- Top Bar -->
+    <div class="portal-topbar">
+      <a href="/" class="portal-brand">
+        <img src="/assets/kydro_logo.png" alt="KYDRO">
+        <div class="portal-brand-text">
+          <h2>KYDRO WEB</h2>
+          <span>LIVE CLOUD PORTAL</span>
+        </div>
+      </a>
+      <div class="live-chip" id="liveChip">
+        <span class="pulse-dot"></span>
+        <span id="liveText">LIVE SYNC</span>
+      </div>
+    </div>
+
+    <!-- Active Location / Home Bar -->
+    <div class="location-bar" id="locationBar">
+      <div>
+        <div class="loc-label">ACTIVE LOCATION</div>
+        <div class="loc-name" id="locNameDisplay">Home (KYDRO-HOME)</div>
+      </div>
+      <div class="loc-switch-btn">Switch Home ▾</div>
+    </div>
+
+    <!-- Today's Status Hero Card -->
+    <div class="status-hero not-logged" id="statusHero">
+      <div class="status-date" id="statusDate">Today, Loading...</div>
+      <div class="status-main-badge" id="statusBadge">⏳ NOT LOGGED</div>
+      <div class="status-meta" id="statusMeta">Drinking water arrival has not been marked yet today.</div>
+    </div>
+
+    <!-- Quick Action Card -->
+    <div class="action-card">
+      <input type="text" id="userNameInput" class="input-field" placeholder="Aapka Naam (e.g. Kavyansh, Rahul)">
+
+      <div class="qty-row">
+        <button class="qty-btn" data-litres="10">10L</button>
+        <button class="qty-btn active" data-litres="20">20L (1 Can)</button>
+        <button class="qty-btn" data-litres="30">30L</button>
+        <button class="qty-btn" data-litres="40">40L (2 Can)</button>
+        <button class="qty-btn" data-litres="50">50L</button>
+      </div>
+
+      <input type="text" id="noteInput" class="input-field" placeholder="Note (optional e.g. 2 camper / cash paid)">
+
+      <button class="btn-mark-present" id="btnPresent">
+        <span>✓</span> PAANI AA GAYA (<span id="btnLitresDisplay">20</span>L)
+      </button>
+
+      <button class="btn-mark-absent" id="btnAbsent">
+        ✕ AAJ NAHI AAYA (ABSENT)
+      </button>
+    </div>
+
+    <!-- Water Bill Calculator Box -->
+    <div class="calculator-box" style="margin-bottom: 24px; padding: 24px;">
+      <div class="calc-header">
+        <h3 style="font-size: 18px;"><span>🧮</span> Month Water Bill & Hisaab</h3>
+        <div class="rate-badge">₹25 / 20L Camper</div>
+      </div>
+      <div class="calc-results" style="padding: 16px;">
+        <div class="res-item">
+          <div class="res-num" id="webMonthLitres">0L</div>
+          <div class="res-lbl">Total Water</div>
+        </div>
+        <div class="res-item">
+          <div class="res-num" id="webMonthBill">₹0</div>
+          <div class="res-lbl">Estimated Bill</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Switch Home Modal -->
+  <div class="modal-overlay" id="homeModal">
+    <div class="modal-box">
+      <div class="modal-title">🏠 Switch Location / Group</div>
+      <p class="modal-msg">Enter the Group Code for your flat, home, or office to sync water status.</p>
+      <input type="text" id="newGroupCodeInput" class="input-field" placeholder="e.g. KYDRO-8492, FLAT-402" style="text-transform: uppercase;">
+      <div class="modal-btn-row">
+        <button class="btn-cancel" id="btnCloseHomeModal">Cancel</button>
+        <button class="btn-confirm" id="btnApplyGroupCode">Switch & Sync</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conflict Warning Modal -->
+  <div class="modal-overlay" id="conflictModal">
+    <div class="modal-box danger">
+      <div class="modal-title" id="conflictTitle">⚠️ Conflict Warning</div>
+      <p class="modal-msg" id="conflictMsg">Someone already marked water today. Do you want to update?</p>
+      <div class="modal-btn-row">
+        <button class="btn-cancel" id="btnConflictCancel">Cancel</button>
+        <button class="btn-confirm" id="btnConflictConfirm">Update Anyway</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Popup -->
+  <div class="toast-popup" id="toast">Update saved!</div>
+
+  <script>
+    const API_BASE = 'https://kynx-backend.onrender.com';
+    let currentGroupCode = localStorage.getItem('kydro_group_code') || 'KYDRO-HOME';
+    let currentUserName = localStorage.getItem('kydro_user_name') || 'Web User';
+    let selectedLitres = 20;
+    let todayData = null;
+    let ws = null;
+    let pendingAction = null;
+
+    const locNameDisplay = document.getElementById('locNameDisplay');
+    const userNameInput = document.getElementById('userNameInput');
+    const liveChip = document.getElementById('liveChip');
+    const liveText = document.getElementById('liveText');
+    const statusHero = document.getElementById('statusHero');
+    const statusDate = document.getElementById('statusDate');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusMeta = document.getElementById('statusMeta');
+    const btnLitresDisplay = document.getElementById('btnLitresDisplay');
+    const toast = document.getElementById('toast');
+
+    // Modals
+    const homeModal = document.getElementById('homeModal');
+    const locationBar = document.getElementById('locationBar');
+    const btnCloseHomeModal = document.getElementById('btnCloseHomeModal');
+    const btnApplyGroupCode = document.getElementById('btnApplyGroupCode');
+    const newGroupCodeInput = document.getElementById('newGroupCodeInput');
+
+    const conflictModal = document.getElementById('conflictModal');
+    const conflictTitle = document.getElementById('conflictTitle');
+    const conflictMsg = document.getElementById('conflictMsg');
+    const btnConflictCancel = document.getElementById('btnConflictCancel');
+    const btnConflictConfirm = document.getElementById('btnConflictConfirm');
+
+    // Init
+    locNameDisplay.textContent = currentGroupCode;
+    userNameInput.value = currentUserName;
+    statusDate.textContent = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+    userNameInput.addEventListener('change', (e) => {
+      currentUserName = e.target.value.trim() || 'Web User';
+      localStorage.setItem('kydro_user_name', currentUserName);
+    });
+
+    // Quantity selectors
+    document.querySelectorAll('.qty-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.qty-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedLitres = parseInt(btn.dataset.litres);
+        btnLitresDisplay.textContent = selectedLitres;
+      });
+    });
+
+    // Switch Home Modal
+    locationBar.addEventListener('click', () => {
+      newGroupCodeInput.value = currentGroupCode;
+      homeModal.classList.add('active');
+    });
+
+    btnCloseHomeModal.addEventListener('click', () => {
+      homeModal.classList.remove('active');
+    });
+
+    btnApplyGroupCode.addEventListener('click', () => {
+      const code = newGroupCodeInput.value.trim().toUpperCase();
+      if (code) {
+        currentGroupCode = code;
+        localStorage.setItem('kydro_group_code', code);
+        locNameDisplay.textContent = code;
+        homeModal.classList.remove('active');
+        showToast(`Switched to: ${code}`);
+        fetchTodayStatus();
+        fetchMonthlyHistory();
+        initWebSocket();
+      }
+    });
+
+    // Toast function
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // Fetch Today's Delivery
+    async function fetchTodayStatus() {
+      try {
+        const res = await fetch(`${API_BASE}/api/kydro/status/today?group_code=${encodeURIComponent(currentGroupCode)}`);
+        if (res.ok) {
+          todayData = await res.json();
+          renderTodayStatus();
+        }
+      } catch (err) {
+        console.error('Fetch status error:', err);
+      }
+    }
+
+    function renderTodayStatus() {
+      if (!todayData) return;
+
+      statusHero.className = 'status-hero';
+      if (todayData.status === 'PRESENT') {
+        statusHero.classList.add('present');
+        statusBadge.textContent = `💧 PAANI AA GAYA (${todayData.quantity_litres}L)`;
+        statusMeta.innerHTML = `Marked by <strong>${todayData.marked_by || 'Roommate'}</strong> at ${todayData.marked_at ? new Date(todayData.marked_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Today'}${todayData.note ? ` • Note: "${todayData.note}"` : ''}`;
+      } else if (todayData.status === 'ABSENT') {
+        statusHero.classList.add('absent');
+        statusBadge.textContent = `❌ AAJ NAHI AAYA (ABSENT)`;
+        statusMeta.innerHTML = `Marked as Absent by <strong>${todayData.marked_by || 'Roommate'}</strong>`;
+      } else {
+        statusHero.classList.add('not-logged');
+        statusBadge.textContent = `⏳ NOT LOGGED`;
+        statusMeta.textContent = `Drinking water arrival has not been marked yet today.`;
+      }
+    }
+
+    // Fetch Monthly History
+    async function fetchMonthlyHistory() {
+      try {
+        const d = new Date();
+        const monthStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        const res = await fetch(`${API_BASE}/api/kydro/history?group_code=${encodeURIComponent(currentGroupCode)}&month=${monthStr}`);
+        if (res.ok) {
+          const hist = await res.json();
+          const totalLitres = hist.total_litres || 0;
+          const bill = Math.round((totalLitres / 20) * 25);
+          document.getElementById('webMonthLitres').textContent = `${totalLitres}L`;
+          document.getElementById('webMonthBill').textContent = `₹${bill}`;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // Mark Present & Absent actions with conflict check
+    document.getElementById('btnPresent').addEventListener('click', () => {
+      const note = document.getElementById('noteInput').value.trim();
+      if (todayData && todayData.status === 'PRESENT') {
+        // Show conflict warning
+        conflictTitle.textContent = 'Paani Pehle Se Present Hai!';
+        conflictMsg.textContent = `${todayData.marked_by || 'User'} ne pehle hi aaj ${todayData.quantity_litres}L paani mark kiya hua hai. Kya aap fir bhi update lagana chahte hain?`;
+        pendingAction = () => executeMark('PRESENT', selectedLitres, note);
+        conflictModal.classList.add('active');
+      } else {
+        executeMark('PRESENT', selectedLitres, note);
+      }
+    });
+
+    document.getElementById('btnAbsent').addEventListener('click', () => {
+      const note = document.getElementById('noteInput').value.trim();
+      if (todayData && todayData.status === 'PRESENT') {
+        conflictTitle.textContent = '⚠️ Conflict Warning!';
+        conflictMsg.textContent = `${todayData.marked_by || 'User'} ne aaj PRESENT mark kar rakha hai. Kya aap sach me ise ABSENT me change karna chahte hain?`;
+        pendingAction = () => executeMark('ABSENT', 0, note);
+        conflictModal.classList.add('active');
+      } else {
+        executeMark('ABSENT', 0, note);
+      }
+    });
+
+    btnConflictCancel.addEventListener('click', () => {
+      conflictModal.classList.remove('active');
+      pendingAction = null;
+    });
+
+    btnConflictConfirm.addEventListener('click', () => {
+      conflictModal.classList.remove('active');
+      if (pendingAction) {
+        pendingAction();
+        pendingAction = null;
+      }
+    });
+
+    async function executeMark(status, litres, note) {
+      try {
+        const campers = litres > 0 ? Math.max(1, Math.round(litres / 20)) : 0;
+        const payload = {
+          group_code: currentGroupCode,
+          status: status,
+          quantity_litres: litres,
+          campers_count: campers,
+          marked_by: currentUserName || 'Web User',
+          note: note
+        };
+
+        const res = await fetch(`${API_BASE}/api/kydro/status/mark`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          todayData = await res.json();
+          renderTodayStatus();
+          fetchMonthlyHistory();
+          showToast(status === 'PRESENT' ? `💧 Marked Present (${litres}L)!` : '❌ Marked Absent!');
+        }
+      } catch (err) {
+        showToast('Error updating status');
+      }
+    }
+
+    // Real-time WebSockets
+    function initWebSocket() {
+      if (ws) {
+        ws.close();
+      }
+
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `wss://kynx-backend.onrender.com/ws/kydro/${encodeURIComponent(currentGroupCode)}`;
+
+      try {
+        ws = new WebSocket(wsUrl);
+
+        ws.onopen = () => {
+          liveChip.classList.remove('disconnected');
+          liveText.textContent = 'LIVE SYNC';
+        };
+
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            if (data.type === 'WATER_UPDATE') {
+              todayData = {
+                date: data.date,
+                status: data.status,
+                quantity_litres: data.quantity_litres,
+                campers_count: data.campers_count || Math.round(data.quantity_litres / 20),
+                marked_by: data.marked_by,
+                marked_at: data.marked_at,
+                note: data.note
+              };
+              renderTodayStatus();
+              fetchMonthlyHistory();
+              showToast(`💧 ${data.marked_by}: ${data.status} (${data.quantity_litres}L)`);
+            }
+          } catch (e) {}
+        };
+
+        ws.onclose = () => {
+          liveChip.classList.add('disconnected');
+          liveText.textContent = 'RECONNECTING...';
+          setTimeout(initWebSocket, 6000);
+        };
+
+        ws.onerror = () => {
+          liveChip.classList.add('disconnected');
+        };
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // Initial load
+    fetchTodayStatus();
+    fetchMonthlyHistory();
+    initWebSocket();
+  </script>
+</body>
+</html>

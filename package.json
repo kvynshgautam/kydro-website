@@ -1,0 +1,24 @@
+{
+  "name": "kydro-portal",
+  "version": "1.0.0",
+  "description": "KYDRO Official Futuristic Web Portal & Release Distribution Hub - Track Every Drop.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "kydro",
+    "water-delivery",
+    "tracker",
+    "cloud-sync",
+    "android",
+    "web-app"
+  ],
+  "author": "Kavyansh Gautam (KG)",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
