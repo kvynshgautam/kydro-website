@@ -79,7 +79,8 @@ function initCalculator() {
 // Fetch APK Release Info
 async function fetchReleaseInfo() {
   try {
-    const res = await fetch('/api/updates');
+    let res = await fetch('update.json');
+    if (!res.ok) res = await fetch('/api/updates');
     if (!res.ok) return;
     const data = await res.json();
     
