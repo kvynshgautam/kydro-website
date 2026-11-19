@@ -11,9 +11,20 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/download/apk",
+      "destination": "https://github.com/kvynshgautam/kydro-website/releases/latest/download/KYDRO-latest.apk",
+      "permanent": false
+    },
+    {
+      "source": "/downloads/:path*",
+      "destination": "https://github.com/kvynshgautam/kydro-website/releases/latest/download/KYDRO-latest.apk",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     { "source": "/web", "destination": "/web.html" },
-    { "source": "/download/apk", "destination": "/downloads/KYDRO.apk" },
     { "source": "/api/updates", "destination": "/update.json" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
