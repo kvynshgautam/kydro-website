@@ -44,7 +44,7 @@
           <span>🌐 Launch Web</span>
         </a>
         <a href="https://github.com/kvynshgautam/kydro-website/releases/latest/download/KYDRO-latest.apk" class="btn-nav-download" download>
-          <span>📥 Download APK</span>
+          <span>📥 Download APK <span class="nav-version-badge" id="navVersionBadge">v1.1.0</span></span>
         </a>
       </div>
     </div>
@@ -58,7 +58,7 @@
       <div class="hero-left">
         <div class="badge-live">
           <span class="badge-pulse-dot"></span>
-          <span>BUILD v1.0.0 IS LIVE • MULTI-HOME SYNC &amp; CLOUD PULSE</span>
+          <span id="heroVersionBadge">BUILD v1.1.0 IS LIVE • UPDATED 19 NOV 2026 • 3D EMBLEM EDITION</span>
         </div>
         <h1 class="hero-title">
           PURE WATER <br>
@@ -73,11 +73,43 @@
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
             </svg>
-            <span>Download APK (v1.0.0)</span>
+            <span>Download APK (<span id="apkVersionText">v1.1.0</span>)</span>
           </a>
           <a href="web.html" class="btn-secondary-glass">
             <span>⚡ Open Web Portal</span>
           </a>
+        </div>
+
+        <!-- App Release & Version Intel Box -->
+        <div class="release-intel-card">
+          <div class="release-intel-header">
+            <div class="release-chip">
+              <span class="release-chip-dot"></span>
+              <span class="release-ver" id="apkVersion">v1.1.0</span>
+              <span class="release-tag">Official Android APK</span>
+            </div>
+            <div class="release-updated" id="apkUpdatedTime">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>Updated: 19 Nov 2026, 06:35 PM IST</span>
+            </div>
+          </div>
+          <div class="release-intel-details">
+            <div class="detail-col">
+              <span class="detail-label">File Size</span>
+              <span class="detail-val" id="apkSize">17.1 MB</span>
+            </div>
+            <div class="detail-col">
+              <span class="detail-label">OS Support</span>
+              <span class="detail-val">Android 8.0+</span>
+            </div>
+            <div class="detail-col">
+              <span class="detail-label">Build Code</span>
+              <span class="detail-val">Build #2 • Adaptive</span>
+            </div>
+          </div>
         </div>
 
         <div class="hero-meta">
@@ -216,7 +248,7 @@
   <!-- Footer -->
   <footer>
     <p>
-      KYDRO™ &copy; 2026 • Engineered with obsidian precision by <strong>Kavyansh Gautam (KG)</strong>.
+      KYDRO™ <span id="footerVersion" style="color:var(--accent-cyan); font-weight:700;">v1.1.0 (Updated 19 Nov 2026)</span> &copy; 2026 • Engineered with obsidian precision by <strong>Kavyansh Gautam (KG)</strong>.
       <br>
       Part of the KYNX Ecosystem. All Rights Reserved.
     </p>

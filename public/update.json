@@ -1,20 +1,20 @@
 {
   "app_name": "KYDRO",
   "tagline": "TRACK EVERY DROP.",
-  "latest_version": "1.0.0",
-  "version_code": 1,
+  "latest_version": "1.1.0",
+  "version_code": 2,
   "release_date": "2026-11-19",
+  "updated_at": "19 Nov 2026, 06:35 PM IST",
   "download_url": "https://github.com/kvynshgautam/kydro-website/releases/latest/download/KYDRO-latest.apk",
   "apk_filename": "KYDRO-latest.apk",
-  "file_size": "17.1 MB",
-  "sha256": "C4EB1E1A74B167C2075C88A11965086F80C2DC635D4704B8B3304BAA310DF1DC",
-  "features": [
-    "Multi-Device Real-Time Cloud Sync (10+ phones)",
-    "Instant Android Notification Alert on delivery",
-    "Duplicate & Conflict Safeguards (Zero Misunderstandings)",
-    "Water Bill Calculator (Default ₹25 per 20L Camper)",
-    "Multi-Home & Location Switcher (Switch between multiple houses)",
-    "1-Tap WhatsApp Bill & Invite Sharing",
-    "Futuristic Obsidian Glass Aesthetic & Ripple Glow Animations"
+  "file_size": "17.5 MB",
+  "min_sdk": "Android 8.0 (Oreo)",
+  "target_sdk": "Android 15 (API 35)",
+  "changelog": [
+    "KYNX-style 3D Hex-Shield metallic emblem & obsidian launcher icon",
+    "Full Android Adaptive Icon support (Android 8.0 to Android 15+)",
+    "Multi-Home instant location switcher with zero-default safety",
+    "Real-time drinking water delivery sync across 10+ devices",
+    "Water Bill Calculator with instant WhatsApp hisaab sharing"
   ]
 }

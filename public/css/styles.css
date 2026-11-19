@@ -770,3 +770,131 @@ footer strong {
     gap: 16px;
   }
 }
+
+
+/* ──────────────── Release Intel & Version Card ──────────────── */
+.release-intel-card {
+  background: rgba(14, 16, 26, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.release-intel-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent-cyan) 50%, transparent 100%);
+  opacity: 0.6;
+}
+
+.release-intel-card:hover {
+  border-color: rgba(0, 210, 255, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55), 0 0 25px rgba(0, 210, 255, 0.12);
+}
+
+.release-intel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.release-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.release-chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--water-present);
+  box-shadow: 0 0 10px var(--water-present);
+  animation: pulse 1.8s infinite;
+}
+
+.release-ver {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: 0.5px;
+}
+
+.release-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent-cyan);
+  background: rgba(0, 210, 255, 0.12);
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+.release-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c4b5fd;
+  font-family: var(--font-mono);
+}
+
+.release-intel-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.detail-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+}
+
+.detail-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+}
+
+.nav-version-badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: var(--accent-cyan);
+  background: rgba(0, 210, 255, 0.1);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-left: 4px;
+}

@@ -76,7 +76,7 @@ function initCalculator() {
   update();
 }
 
-// Fetch APK Release Info
+// Fetch and Render Dynamic App Release & Version Intel
 async function fetchReleaseInfo() {
   try {
     let res = await fetch('update.json');
@@ -84,10 +84,44 @@ async function fetchReleaseInfo() {
     if (!res.ok) return;
     const data = await res.json();
     
-    const sizeEl = document.getElementById('apkSize');
+    // Version elements
+    const apkVer = data.latest_version ? `v${data.latest_version}` : 'v1.1.0';
+    const apkDate = data.updated_at || (data.release_date ? `${data.release_date}` : 'Recently Updated');
+    const apkSize = data.file_size || '17.5 MB';
+    
+    // Update IDs
     const verEl = document.getElementById('apkVersion');
-    if (sizeEl && data.file_size) sizeEl.textContent = data.file_size;
-    if (verEl && data.latest_version) verEl.textContent = `v${data.latest_version}`;
+    if (verEl) verEl.textContent = apkVer;
+
+    const verTextEl = document.getElementById('apkVersionText');
+    if (verTextEl) verTextEl.textContent = apkVer;
+
+    const navVerEl = document.getElementById('navVersionBadge');
+    if (navVerEl) navVerEl.textContent = apkVer;
+
+    const updatedEl = document.getElementById('apkUpdatedTime');
+    if (updatedEl) {
+      updatedEl.innerHTML = `
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Updated: ${apkDate}</span>
+      `;
+    }
+
+    const sizeEl = document.getElementById('apkSize');
+    if (sizeEl) sizeEl.textContent = apkSize;
+
+    const heroBadge = document.getElementById('heroVersionBadge');
+    if (heroBadge) {
+      heroBadge.textContent = `BUILD ${apkVer} IS LIVE • UPDATED ${apkDate.toUpperCase()} • 3D EMBLEM EDITION`;
+    }
+
+    const footerVerEl = document.getElementById('footerVersion');
+    if (footerVerEl) {
+      footerVerEl.textContent = `${apkVer} (${apkDate})`;
+    }
   } catch (err) {
     console.log('Release metadata offline, using fallback defaults.');
   }
