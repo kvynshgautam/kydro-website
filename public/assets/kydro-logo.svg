@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <!-- Outer Hex-Shield Dark Metallic Fill -->
+    <linearGradient id="shieldFill" x1="14" y1="6" x2="106" y2="114" gradientUnits="userSpaceOnUse">
+      <stop offset="0.0" stop-color="#141B2D" />
+      <stop offset="0.45" stop-color="#0B0F1A" />
+      <stop offset="1.0" stop-color="#05070E" />
+    </linearGradient>
+
+    <!-- Metallic Chamfer Border Gradient (Platinum Chrome + Electric Cyan + Royal Violet) -->
+    <linearGradient id="borderGrad" x1="14" y1="6" x2="106" y2="114" gradientUnits="userSpaceOnUse">
+      <stop offset="0.0" stop-color="#FFFFFF" />
+      <stop offset="0.25" stop-color="#00D2FF" />
+      <stop offset="0.65" stop-color="#7950FF" />
+      <stop offset="1.0" stop-color="#0284C7" />
+    </linearGradient>
+
+    <!-- 3D Metallic Stem of K (Left Vertical Pillar) -->
+    <linearGradient id="stemGrad" x1="38" y1="32" x2="49" y2="88" gradientUnits="userSpaceOnUse">
+      <stop offset="0.0" stop-color="#FFFFFF" />
+      <stop offset="0.35" stop-color="#E2E8F0" />
+      <stop offset="0.8" stop-color="#38BDF8" />
+      <stop offset="1.0" stop-color="#00D2FF" />
+    </linearGradient>
+
+    <!-- Upper Wing of K (Upper Diagonal Blade) -->
+    <linearGradient id="upperWingGrad" x1="48" y1="32" x2="88" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0.0" stop-color="#FFFFFF" />
+      <stop offset="0.5" stop-color="#38BDF8" />
+      <stop offset="1.0" stop-color="#00D2FF" />
+    </linearGradient>
+
+    <!-- Lower Wing of K (Hydraulic Liquid Wave Arc) -->
+    <linearGradient id="lowerWingGrad" x1="46" y1="56" x2="88" y2="88" gradientUnits="userSpaceOnUse">
+      <stop offset="0.0" stop-color="#7950FF" />
+      <stop offset="0.45" stop-color="#0284C7" />
+      <stop offset="0.85" stop-color="#00D2FF" />
+      <stop offset="1.0" stop-color="#00F0FF" />
+    </linearGradient>
+
+    <!-- Radial Cyan Glow for Droplet Core -->
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.8" />
+      <stop offset="60%" stop-color="#00D2FF" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#00D2FF" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient Subtle Droplet Halo behind K -->
+  <circle cx="60" cy="60" r="32" fill="url(#coreGlow)" />
+
+  <!-- Outer Hex-Shield Base with Dark Metallic Obsidian Fill -->
+  <path d="M60,6 L106,28 L106,92 L60,114 L14,92 L14,28 Z" fill="url(#shieldFill)" />
+
+  <!-- Metallic Chamfer Border with Cyan-Violet Glow -->
+  <path d="M60,6 L106,28 L106,92 L60,114 L14,92 L14,28 Z" fill="none" stroke="url(#borderGrad)" stroke-width="2.2" />
+
+  <!-- Inner Precision Shading Line -->
+  <path d="M60,14 L98,33 L98,87 L60,106 L22,87 L22,33 Z" fill="none" stroke="rgba(0, 210, 255, 0.22)" stroke-width="0.8" />
+
+  <!-- 3D Metallic Stem of K (Left Pillar) -->
+  <path d="M38,32 L49,32 L49,88 L38,88 Z" fill="url(#stemGrad)" />
+
+  <!-- Upper Wing of K (Upper Diagonal Blade) -->
+  <path d="M48,58 L74,32 L87,32 L58,60 Z" fill="url(#upperWingGrad)" />
+
+  <!-- Lower Wing of K (Liquid Cyan Flow) -->
+  <path d="M54,56 L88,88 L74,88 L46,62 Z" fill="url(#lowerWingGrad)" />
+
+  <!-- Crystalline Water Diamond Highlight at Intersection -->
+  <path d="M49,54 L58,60 L49,66 Z" fill="#FFFFFF" />
+
+  <!-- Hydro Micro Accent (Pure Water Specular Glint) -->
+  <circle cx="75" cy="38" r="1.5" fill="#FFFFFF" />
+  <circle cx="78" cy="80" r="1.5" fill="#00F0FF" />
+</svg>
