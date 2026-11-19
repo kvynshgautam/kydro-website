@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KYDRO - Track Every Drop | Real-Time Water Delivery & Hisaab</title>
-  <meta name="description" content="Official website for KYDRO - Real-time drinking water attendance, cloud sync for 10+ shared devices, duplicate conflict safeguards & automatic water bill calculator.">
+  <title>KYDRO™ - Pure Water Intelligence | Real-Time Attendance & Hisaab</title>
+  <meta name="description" content="Next-generation drinking water attendance and billing intelligence engineered by KG. Real-time multi-device cloud sync across 10+ shared devices, duplicate safeguards & auto hisaab.">
   <link rel="icon" type="image/png" href="assets/kydro_logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -20,73 +20,78 @@
     <div class="aura-blob aura-blob-3"></div>
   </div>
 
-  <!-- Navbar -->
-  <header class="navbar">
+  <!-- KYNX-Style Floating Capsule Navbar -->
+  <nav class="navbar" id="mainNavbar">
     <div class="nav-container">
       <a href="index.html" class="brand-link">
-        <img src="assets/kydro_logo.png" alt="KYDRO Logo" class="brand-logo">
+        <div class="brand-logo-box">
+          <img src="assets/kydro_logo.png" alt="KYDRO Logo" class="brand-logo">
+        </div>
         <div class="brand-text">
           <h1>KYDRO</h1>
           <span>TRACK EVERY DROP.</span>
         </div>
       </a>
+
+      <ul class="nav-links">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#calculator" class="nav-link">Hisaab</a></li>
+        <li><a href="web.html" class="nav-link" style="color:var(--accent-cyan); font-weight:700;">⚡ Web Deck</a></li>
+      </ul>
+
       <div class="nav-actions">
         <a href="web.html" class="btn-nav-web">
-          <span>🌐</span> Open Web App
+          <span>🌐 Launch Web</span>
         </a>
         <a href="https://github.com/kvynshgautam/kydro-website/releases/latest/download/KYDRO-latest.apk" class="btn-nav-download" download>
-          <span>📥</span> Download APK
+          <span>📥 Download APK</span>
         </a>
       </div>
     </div>
-  </header>
+  </nav>
 
-  <!-- Main Content -->
+  <!-- Main Content Wrapper -->
   <div class="main-wrapper">
 
     <!-- Hero Section -->
     <section class="hero-section">
-      <div class="hero-content">
-        <div class="hero-pill">
-          <span class="dot"></span>
-          24/7 LIVE CLOUD SYNC • ZERO LAPTOP DEPENDENCY
+      <div class="hero-left">
+        <div class="badge-live">
+          <span class="badge-pulse-dot"></span>
+          <span>BUILD v1.0.0 IS LIVE • MULTI-HOME SYNC &amp; CLOUD PULSE</span>
         </div>
-        <h2 class="hero-title">
-          Smart Water Delivery <br>
-          <span class="glow-cyan">Attendance & Hisaab.</span>
-        </h2>
-        <p class="hero-subtitle">
-          Real-time drinking water tracking across 10+ shared phones. Instant notifications, zero duplicate misunderstandings, multi-home switching, and automatic monthly bill splitting.
+        <h1 class="hero-title">
+          PURE WATER <br>
+          <span class="text-gradient">INTELLIGENCE.</span>
+        </h1>
+        <p class="hero-description">
+          Next-generation drinking water attendance and hisaab intelligence engineered by <strong>KG</strong>. Real-time multi-device cloud synchronization across 10+ roommates, duplicate collision safeguards, multi-home switching, and automatic monthly bill splitting.
         </p>
 
         <div class="hero-cta-group">
           <a href="https://github.com/kvynshgautam/kydro-website/releases/latest/download/KYDRO-latest.apk" class="btn-primary-glow" download>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
             </svg>
-            <span>DOWNLOAD ANDROID APK</span>
+            <span>Download APK (v1.0.0)</span>
           </a>
           <a href="web.html" class="btn-secondary-glass">
-            <span>⚡ Launch Web App</span>
+            <span>⚡ Open Web Portal</span>
           </a>
         </div>
 
-        <div class="hero-specs">
-          <div class="spec-item">
-            <span class="spec-value" id="apkVersion">v1.0.0</span>
-            <span class="spec-label">Latest Release</span>
+        <div class="hero-meta">
+          <div class="meta-item">
+            <span style="color:#20c997">✓</span> 100% Free &amp; Open
           </div>
-          <div class="spec-item">
-            <span class="spec-value" id="apkSize">17.1 MB</span>
-            <span class="spec-label">APK Size</span>
+          <div class="meta-item">
+            <span style="color:#7950ff">🛡️</span> Zero Duplicate Conflicts
           </div>
-          <div class="spec-item">
-            <span class="spec-value">100% Free</span>
-            <span class="spec-label">Open Architecture</span>
+          <div class="meta-item">
+            <span style="color:#00d2ff">⚡</span> 0ms Live WebSockets
           </div>
-          <div class="spec-item">
-            <span class="spec-value">₹25 / 20L</span>
-            <span class="spec-label">Standard Rate</span>
+          <div class="meta-item">
+            <span style="color:#f59e0b">💰</span> ₹25 / 20L Standard Rate
           </div>
         </div>
       </div>
@@ -99,7 +104,7 @@
             <div class="hero-floating-badge">
               <div class="badge-info">
                 <h4>LIVE DELIVERY PULSE</h4>
-                <p>💧 Paani Aa Gaya! (20L)</p>
+                <p>💧 Paani Aa Gaya! (20L Marked)</p>
               </div>
               <div class="live-dot"></div>
             </div>
@@ -109,65 +114,69 @@
     </section>
 
     <!-- Core Features Section -->
-    <section>
+    <section id="features">
       <div class="section-header">
-        <div class="section-pill">ENGINEERED FOR REAL HOMES</div>
+        <div class="section-pill">OBSIDIAN ARCHITECTURE</div>
         <h2 class="section-title">Built to End Daily Water Confusion</h2>
-        <p class="section-desc">Everything roommates, families, and flats need to never fight over drinking water deliveries again.</p>
+        <p class="section-desc">Engineered for shared flats, roommates, and multi-location setups with precision cloud isolation.</p>
       </div>
 
       <div class="features-grid">
         <div class="glass-card">
           <div class="card-icon">⚡</div>
-          <h3>10+ Phones Real-Time Sync</h3>
-          <p>Works anywhere on 4G, 5G, or Wi-Fi via our 24/7 Render cloud backend. When one person marks water, everyone's phone updates instantly.</p>
+          <h3>10+ Devices 0ms Sync</h3>
+          <p>Works anywhere on 4G, 5G, or Wi-Fi via our dedicated cloud backend. When one person marks delivery, everyone's phone updates in real-time.</p>
         </div>
 
         <div class="glass-card">
           <div class="card-icon">🛡️</div>
-          <h3>Duplicate & Conflict Guard</h3>
-          <p>If User 1 already logged delivery today and User 2 taps present again, KYDRO warns them to avoid accidental double orders or mistaken absences.</p>
+          <h3>Collision &amp; Duplicate Guard</h3>
+          <p>If Roommate A logs delivery at 7 AM and Roommate B opens the app later, KYDRO warns them to avoid accidental double orders or mistaken absences.</p>
         </div>
 
         <div class="glass-card">
           <div class="card-icon">🏠</div>
-          <h3>Multi-Home & Location Switcher</h3>
-          <p>Stay at two places or manage water for your flat and your office? Switch between multiple homes with a single tap on the home screen.</p>
+          <h3>Multi-Home Teleport</h3>
+          <p>Stay at two places or manage water for your flat and office? Switch between multiple saved locations with a single tap from the main Today screen.</p>
         </div>
 
         <div class="glass-card">
           <div class="card-icon">🧮</div>
-          <h3>Smart ₹25/Camper Calculator</h3>
-          <p>Pre-configured for the standard ₹25 per 20L camper supplier rate. Automatically computes monthly bill, splits cost per roommate, and shares to WhatsApp.</p>
+          <h3>Automated ₹25 Hisaab</h3>
+          <p>Pre-configured for the standard ₹25 per 20L camper supplier rate. Automatically computes monthly consumption, splits per person, and exports WhatsApp reports.</p>
         </div>
 
         <div class="glass-card">
           <div class="card-icon">🔔</div>
-          <h3>Android High-Priority Alerts</h3>
-          <p>Native notifications with custom sound and vibration wake up roommates when water arrives so someone can carry in the camper.</p>
+          <h3>High-Priority Android Alerts</h3>
+          <p>Native notifications with vibration and chime wake up roommates when water arrives so someone can carry in the camper.</p>
         </div>
 
         <div class="glass-card">
-          <div class="card-icon">🌐</div>
-          <h3>Universal Web Portal</h3>
-          <p>No phone with you or on an iPhone or laptop? Access the full live KYDRO web app from any browser with zero app installation needed.</p>
+          <div class="card-icon">📜</div>
+          <h3>Full Monthly History Logs</h3>
+          <p>Navigate backwards through past months, inspect who marked on which date at what time, and share itemized attendance bills with roommates.</p>
         </div>
       </div>
     </section>
 
-    <!-- Interactive Water Bill Hisaab Simulator -->
-    <section>
+    <!-- Interactive Calculator Section -->
+    <section id="calculator">
+      <div class="section-header">
+        <div class="section-pill">WATER BILL SIMULATOR</div>
+        <h2 class="section-title">Monthly Water Bill &amp; Hisaab</h2>
+        <p class="section-desc">Estimate your flat's monthly drinking water budget with live roommate splitting.</p>
+      </div>
+
       <div class="calculator-box">
         <div class="calc-header">
-          <h3>
-            <span>🧮</span> Interactive Water Bill Calculator
-          </h3>
-          <div class="rate-badge">Rate: ₹25 / 20L Camper</div>
+          <h3><span>🧮</span> Interactive Hisaab Simulator</h3>
+          <div class="rate-badge">₹25 / 20L Camper</div>
         </div>
 
         <div class="calc-grid">
           <div class="calc-input-group">
-            <label>Monthly 20L Campers Delivered</label>
+            <label>Monthly Campers (20L Cans)</label>
             <div class="calc-counter">
               <button id="btnDecCampers">−</button>
               <span class="count-val" id="countCampers">20</span>
@@ -176,7 +185,7 @@
           </div>
 
           <div class="calc-input-group">
-            <label>Number of Roommates (Split)</label>
+            <label>Number of Roommates</label>
             <div class="calc-counter">
               <button id="btnDecPeople">−</button>
               <span class="count-val" id="countPeople">4</span>
@@ -196,7 +205,7 @@
           </div>
           <div class="res-item">
             <div class="res-num" id="resPerPerson">₹125</div>
-            <div class="res-lbl">Per Person Share</div>
+            <div class="res-lbl">Per Roommate Share</div>
           </div>
         </div>
       </div>
@@ -207,7 +216,7 @@
   <!-- Footer -->
   <footer>
     <p>
-      KYDRO &copy; 2026 • Engineered with obsidian precision by <strong>Kavyansh Gautam (KG)</strong>.
+      KYDRO™ &copy; 2026 • Engineered with obsidian precision by <strong>Kavyansh Gautam (KG)</strong>.
       <br>
       Part of the KYNX Ecosystem. All Rights Reserved.
     </p>
