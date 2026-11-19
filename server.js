@@ -59,11 +59,15 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`\n======================================================`);
-  console.log(`💧 KYDRO Web Portal & Hub is Live!`);
-  console.log(`🔗 Local URL: http://localhost:${PORT}`);
-  console.log(`📱 Web App:  http://localhost:${PORT}/web`);
-  console.log(`📥 Download: http://localhost:${PORT}/download/apk`);
-  console.log(`======================================================\n`);
-});
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n======================================================`);
+    console.log(`💧 KYDRO Web Portal & Hub is Live!`);
+    console.log(`🔗 Local URL: http://localhost:${PORT}`);
+    console.log(`📱 Web App:  http://localhost:${PORT}/web`);
+    console.log(`📥 Download: http://localhost:${PORT}/download/apk`);
+    console.log(`======================================================\n`);
+  });
+}
+
+module.exports = app;
