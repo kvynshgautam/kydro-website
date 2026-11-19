@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KYDRO Web Portal - Live Water Sync</title>
+  <title>KYDRO Web Portal - Live Water Attendance & History</title>
   <link rel="icon" type="image/png" href="/assets/kydro_logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
     .web-portal-container {
       max-width: 680px;
       margin: 0 auto;
-      padding: 20px 16px 80px;
+      padding: 16px 16px 80px;
       position: relative;
       z-index: 10;
     }
@@ -24,7 +24,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .portal-brand {
@@ -63,7 +63,7 @@
       align-items: center;
       gap: 8px;
       padding: 6px 14px;
-      background: rgba(11, 23, 56, 0.8);
+      background: rgba(11, 23, 56, 0.85);
       border: 1px solid var(--neon-cyan);
       border-radius: 20px;
       font-size: 11px;
@@ -83,6 +83,45 @@
     .live-chip.disconnected .pulse-dot {
       background: var(--water-absent);
       box-shadow: 0 0 8px var(--water-absent);
+    }
+
+    /* Navigation Tabs */
+    .web-nav-tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(11, 23, 56, 0.85);
+      border: 1px solid rgba(30, 58, 95, 0.7);
+      padding: 6px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-tab {
+      flex: 1;
+      padding: 10px 4px;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      color: var(--chrome-dark);
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-tab:hover {
+      color: var(--chrome-white);
+    }
+
+    .nav-tab.active {
+      background: var(--neon-cyan);
+      color: var(--bg-dark);
+      box-shadow: 0 0 16px var(--neon-cyan-glow);
     }
 
     /* Location Bar */
@@ -113,7 +152,7 @@
     }
 
     .loc-name {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       font-family: var(--font-mono);
       color: var(--chrome-white);
@@ -127,6 +166,21 @@
       padding: 6px 12px;
       border-radius: 10px;
       border: 1px solid rgba(0, 210, 255, 0.3);
+    }
+
+    /* Views container */
+    .tab-view {
+      display: none;
+    }
+
+    .tab-view.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Status Hero Card */
@@ -294,6 +348,208 @@
       border-color: var(--neon-cyan);
     }
 
+    /* ──────────────── Month Navigator ──────────────── */
+    .month-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(11, 23, 56, 0.85);
+      border: 1.2px solid rgba(0, 210, 255, 0.4);
+      border-radius: 18px;
+      padding: 10px 16px;
+      margin-bottom: 18px;
+      backdrop-filter: blur(16px);
+    }
+
+    .month-nav-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(0, 210, 255, 0.12);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: var(--neon-cyan);
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .month-nav-btn:hover {
+      background: var(--neon-cyan);
+      color: var(--bg-dark);
+    }
+
+    .month-nav-title {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: var(--chrome-white);
+      font-family: var(--font-mono);
+    }
+
+    /* 4-Stat Summary Grid */
+    .stats-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-glass-card {
+      background: rgba(7, 15, 38, 0.8);
+      border: 1px solid rgba(30, 58, 95, 0.7);
+      border-radius: 18px;
+      padding: 16px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .stat-glass-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--card-glow-border);
+    }
+
+    .stat-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--chrome-dark);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stat-val {
+      font-size: 26px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+    }
+
+    .stat-val.cyan { color: var(--neon-cyan-bright); }
+    .stat-val.green { color: var(--water-present); }
+    .stat-val.red { color: var(--water-absent); }
+    .stat-val.gold { color: var(--water-gold); }
+
+    /* History List Items */
+    .history-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .history-header-row h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--chrome-white);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .history-item {
+      background: rgba(11, 23, 56, 0.7);
+      border: 1px solid rgba(30, 58, 95, 0.7);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      transition: all 0.2s;
+    }
+
+    .history-item:hover {
+      border-color: var(--neon-cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .history-item.present {
+      border-left: 4px solid var(--water-present);
+    }
+
+    .history-item.absent {
+      border-left: 4px solid var(--water-absent);
+    }
+
+    .history-left h4 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--chrome-white);
+      margin-bottom: 2px;
+    }
+
+    .history-left p {
+      font-size: 11px;
+      color: var(--chrome-dark);
+    }
+
+    .history-left .history-note {
+      font-size: 11px;
+      color: var(--neon-cyan);
+      margin-top: 3px;
+      font-style: italic;
+    }
+
+    .history-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+    }
+
+    .history-badge.present {
+      background: rgba(0, 245, 160, 0.15);
+      color: var(--water-present);
+      border: 1px solid rgba(0, 245, 160, 0.4);
+    }
+
+    .history-badge.absent {
+      background: rgba(255, 42, 85, 0.15);
+      color: var(--water-absent);
+      border: 1px solid rgba(255, 42, 85, 0.4);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      background: rgba(11, 23, 56, 0.4);
+      border: 1px dashed rgba(30, 58, 95, 0.8);
+      border-radius: 18px;
+      color: var(--chrome-muted);
+      font-size: 13px;
+    }
+
+    .btn-share-report {
+      width: 100%;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(0, 210, 255, 0.12);
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan-bright);
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-share-report:hover {
+      background: var(--neon-cyan);
+      color: var(--bg-dark);
+    }
+
     /* Modal Popup */
     .modal-overlay {
       position: fixed;
@@ -301,7 +557,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(4, 7, 20, 0.85);
+      background: rgba(4, 7, 20, 0.88);
       backdrop-filter: blur(12px);
       display: flex;
       align-items: center;
@@ -394,7 +650,7 @@
 </head>
 <body>
 
-  <!-- Background Aura -->
+  <!-- Ambient Background Aura -->
   <div class="aura-container">
     <div class="aura-blob aura-blob-1"></div>
     <div class="aura-blob aura-blob-2"></div>
@@ -423,54 +679,150 @@
         <div class="loc-label">ACTIVE LOCATION</div>
         <div class="loc-name" id="locNameDisplay">No Home Connected (Tap to Connect)</div>
       </div>
-      <div class="loc-switch-btn">Connect / Switch ▾</div>
+      <div class="loc-switch-btn">Switch Home ▾</div>
     </div>
 
-    <!-- Today's Status Hero Card -->
-    <div class="status-hero not-logged" id="statusHero">
-      <div class="status-date" id="statusDate">Today, Loading...</div>
-      <div class="status-main-badge" id="statusBadge">⏳ NOT LOGGED</div>
-      <div class="status-meta" id="statusMeta">Drinking water arrival has not been marked yet today.</div>
+    <!-- Web App Nav Tabs -->
+    <div class="web-nav-tabs">
+      <button class="nav-tab active" data-tab="today">💧 Today</button>
+      <button class="nav-tab" data-tab="history">📜 History & Logs</button>
+      <button class="nav-tab" data-tab="calculator">🧮 Calculator</button>
     </div>
 
-    <!-- Quick Action Card -->
-    <div class="action-card">
-      <input type="text" id="userNameInput" class="input-field" placeholder="Aapka Naam (e.g. Kavyansh, Rahul)">
-
-      <div class="qty-row">
-        <button class="qty-btn" data-litres="10">10L</button>
-        <button class="qty-btn active" data-litres="20">20L (1 Can)</button>
-        <button class="qty-btn" data-litres="30">30L</button>
-        <button class="qty-btn" data-litres="40">40L (2 Can)</button>
-        <button class="qty-btn" data-litres="50">50L</button>
+    <!-- ──────────────── TAB 1: TODAY ──────────────── -->
+    <div class="tab-view active" id="view-today">
+      <!-- Today's Status Hero Card -->
+      <div class="status-hero not-logged" id="statusHero">
+        <div class="status-date" id="statusDate">Today, Loading...</div>
+        <div class="status-main-badge" id="statusBadge">⏳ NOT LOGGED</div>
+        <div class="status-meta" id="statusMeta">Drinking water arrival has not been marked yet today.</div>
       </div>
 
-      <input type="text" id="noteInput" class="input-field" placeholder="Note (optional e.g. 2 camper / cash paid)">
+      <!-- Quick Action Card -->
+      <div class="action-card">
+        <input type="text" id="userNameInput" class="input-field" placeholder="Aapka Naam (e.g. Kavyansh, Rahul)">
 
-      <button class="btn-mark-present" id="btnPresent">
-        <span>✓</span> PAANI AA GAYA (<span id="btnLitresDisplay">20</span>L)
-      </button>
+        <div class="qty-row">
+          <button class="qty-btn" data-litres="10">10L</button>
+          <button class="qty-btn active" data-litres="20">20L (1 Can)</button>
+          <button class="qty-btn" data-litres="30">30L</button>
+          <button class="qty-btn" data-litres="40">40L (2 Can)</button>
+          <button class="qty-btn" data-litres="50">50L</button>
+        </div>
 
-      <button class="btn-mark-absent" id="btnAbsent">
-        ✕ AAJ NAHI AAYA (ABSENT)
+        <input type="text" id="noteInput" class="input-field" placeholder="Note (optional e.g. 2 camper / cash paid)">
+
+        <button class="btn-mark-present" id="btnPresent">
+          <span>✓</span> PAANI AA GAYA (<span id="btnLitresDisplay">20</span>L)
+        </button>
+
+        <button class="btn-mark-absent" id="btnAbsent">
+          ✕ AAJ NAHI AAYA (ABSENT)
+        </button>
+      </div>
+
+      <!-- Quick History Preview Snippet -->
+      <div style="background: rgba(11,23,56,0.5); border: 1px solid rgba(30,58,95,0.7); border-radius: 20px; padding: 18px; margin-bottom: 20px;">
+        <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 12px;">
+          <h4 style="font-size: 14px; font-weight:800; color:var(--chrome-white);">Recent Delivery Records</h4>
+          <a href="#" id="linkViewAllHistory" style="color:var(--neon-cyan); font-size:12px; font-weight:700; text-decoration:none;">View Full History ➔</a>
+        </div>
+        <div id="quickRecentLogs" style="display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12px; color:var(--chrome-muted); text-align:center; padding: 10px;">Loading recent logs...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────── TAB 2: HISTORY & LOGS ──────────────── -->
+    <div class="tab-view" id="view-history">
+      <!-- Month Navigation Bar -->
+      <div class="month-nav-bar">
+        <button class="month-nav-btn" id="btnPrevMonth">◀</button>
+        <div class="month-nav-title" id="displayMonthTitle">November 2026</div>
+        <button class="month-nav-btn" id="btnNextMonth">▶</button>
+      </div>
+
+      <!-- 4-Stat Summary Grid -->
+      <div class="stats-summary-grid">
+        <div class="stat-glass-card">
+          <div class="stat-title">Total Water</div>
+          <div class="stat-val cyan" id="statTotalLitres">0L</div>
+        </div>
+        <div class="stat-glass-card">
+          <div class="stat-title">Present Days</div>
+          <div class="stat-val green" id="statDaysPresent">0 Days</div>
+        </div>
+        <div class="stat-glass-card">
+          <div class="stat-title">Absent Days</div>
+          <div class="stat-val red" id="statDaysAbsent">0 Days</div>
+        </div>
+        <div class="stat-glass-card">
+          <div class="stat-title">Total Bill</div>
+          <div class="stat-val gold" id="statTotalBill">₹0</div>
+        </div>
+      </div>
+
+      <!-- Daily Logs List -->
+      <div class="history-header-row">
+        <h3>Daily Water Attendance Logs</h3>
+        <span id="logCountBadge" style="font-size:11px; color:var(--neon-cyan); font-weight:700;">0 Records</span>
+      </div>
+
+      <div class="history-list" id="historyListContainer">
+        <div class="empty-state">Loading delivery history...</div>
+      </div>
+
+      <button class="btn-share-report" id="btnShareReport">
+        <span>🚀</span> Share Full Month Hisaab on WhatsApp
       </button>
     </div>
 
-    <!-- Water Bill Calculator Box -->
-    <div class="calculator-box" style="margin-bottom: 24px; padding: 24px;">
-      <div class="calc-header">
-        <h3 style="font-size: 18px;"><span>🧮</span> Month Water Bill & Hisaab</h3>
-        <div class="rate-badge">₹25 / 20L Camper</div>
-      </div>
-      <div class="calc-results" style="padding: 16px;">
-        <div class="res-item">
-          <div class="res-num" id="webMonthLitres">0L</div>
-          <div class="res-lbl">Total Water</div>
+    <!-- ──────────────── TAB 3: CALCULATOR ──────────────── -->
+    <div class="tab-view" id="view-calculator">
+      <div class="calculator-box" style="margin-bottom: 24px; padding: 26px;">
+        <div class="calc-header">
+          <h3 style="font-size: 19px;"><span>🧮</span> Water Bill & Roommate Split</h3>
+          <div class="rate-badge">Rate: ₹25 / 20L Camper</div>
         </div>
-        <div class="res-item">
-          <div class="res-num" id="webMonthBill">₹0</div>
-          <div class="res-lbl">Estimated Bill</div>
+
+        <div class="calc-grid">
+          <div class="calc-input-group">
+            <label>Monthly 20L Campers Delivered</label>
+            <div class="calc-counter">
+              <button id="calcBtnDecCampers">−</button>
+              <span class="count-val" id="calcCountCampers">20</span>
+              <button id="calcBtnIncCampers">+</button>
+            </div>
+          </div>
+
+          <div class="calc-input-group">
+            <label>Number of Roommates (Split)</label>
+            <div class="calc-counter">
+              <button id="calcBtnDecPeople">−</button>
+              <span class="count-val" id="calcCountPeople">4</span>
+              <button id="calcBtnIncPeople">+</button>
+            </div>
+          </div>
         </div>
+
+        <div class="calc-results" style="margin-bottom: 20px;">
+          <div class="res-item">
+            <div class="res-num" id="calcResTotalLitres">400L</div>
+            <div class="res-lbl">Total Water</div>
+          </div>
+          <div class="res-item">
+            <div class="res-num" id="calcResTotalBill">₹500</div>
+            <div class="res-lbl">Total Bill</div>
+          </div>
+          <div class="res-item">
+            <div class="res-num" id="calcResPerPerson">₹125</div>
+            <div class="res-lbl">Per Roommate</div>
+          </div>
+        </div>
+
+        <button class="btn-share-report" id="btnShareCalcWhatsApp">
+          <span>📲</span> Share Bill Breakdown on WhatsApp
+        </button>
       </div>
     </div>
 
@@ -479,12 +831,13 @@
   <!-- Switch Home Modal -->
   <div class="modal-overlay" id="homeModal">
     <div class="modal-box">
-      <div class="modal-title">🏠 Switch Location / Group</div>
-      <p class="modal-msg">Enter the Group Code for your flat, home, or office to sync water status.</p>
-      <input type="text" id="newGroupCodeInput" class="input-field" placeholder="e.g. KYDRO-8492, FLAT-402" style="text-transform: uppercase;">
+      <div class="modal-title">🏠 Connect / Switch House</div>
+      <p class="modal-msg">Apne flat ya ghr ka Group Code dalein taaki live paani ka status, daily history logs aur WhatsApp hisaab sync ho sake.</p>
+      <input type="text" id="newGroupCodeInput" class="input-field" placeholder="e.g. KYDRO-HOME, FLAT-102" style="text-transform: uppercase;">
+      <p style="font-size:11px; color:var(--steel-muted); margin-top:-6px; margin-bottom:14px;">💡 <strong>Tip:</strong> Android app me top par jo Code dikh raha hai wo yahan dalein (e.g. agar aap pehle se use kar rahe the toh <code>KYDRO-HOME</code>).</p>
       <div class="modal-btn-row">
         <button class="btn-cancel" id="btnCloseHomeModal">Cancel</button>
-        <button class="btn-confirm" id="btnApplyGroupCode">Switch & Sync</button>
+        <button class="btn-confirm" id="btnApplyGroupCode">Connect & Sync</button>
       </div>
     </div>
   </div>
@@ -510,9 +863,16 @@
     let currentUserName = localStorage.getItem('kydro_user_name') || 'Web User';
     let selectedLitres = 20;
     let todayData = null;
+    let monthlyHistoryData = null;
     let ws = null;
     let pendingAction = null;
 
+    // Month tracking for History tab
+    const now = new Date();
+    let selectedYear = now.getFullYear();
+    let selectedMonth = now.getMonth() + 1; // 1-12
+
+    // DOM Elements
     const locNameDisplay = document.getElementById('locNameDisplay');
     const userNameInput = document.getElementById('userNameInput');
     const liveChip = document.getElementById('liveChip');
@@ -523,6 +883,20 @@
     const statusMeta = document.getElementById('statusMeta');
     const btnLitresDisplay = document.getElementById('btnLitresDisplay');
     const toast = document.getElementById('toast');
+
+    // History DOM elements
+    const displayMonthTitle = document.getElementById('displayMonthTitle');
+    const btnPrevMonth = document.getElementById('btnPrevMonth');
+    const btnNextMonth = document.getElementById('btnNextMonth');
+    const statTotalLitres = document.getElementById('statTotalLitres');
+    const statDaysPresent = document.getElementById('statDaysPresent');
+    const statDaysAbsent = document.getElementById('statDaysAbsent');
+    const statTotalBill = document.getElementById('statTotalBill');
+    const logCountBadge = document.getElementById('logCountBadge');
+    const historyListContainer = document.getElementById('historyListContainer');
+    const quickRecentLogs = document.getElementById('quickRecentLogs');
+    const btnShareReport = document.getElementById('btnShareReport');
+    const linkViewAllHistory = document.getElementById('linkViewAllHistory');
 
     // Modals
     const homeModal = document.getElementById('homeModal');
@@ -537,7 +911,44 @@
     const btnConflictCancel = document.getElementById('btnConflictCancel');
     const btnConflictConfirm = document.getElementById('btnConflictConfirm');
 
-    // Init
+    // ──────────────── TAB SWITCHING LOGIC ────────────────
+    const tabButtons = document.querySelectorAll('.nav-tab');
+    const tabViews = {
+      'today': document.getElementById('view-today'),
+      'history': document.getElementById('view-history'),
+      'calculator': document.getElementById('view-calculator')
+    };
+
+    function switchTab(tabId) {
+      tabButtons.forEach(btn => {
+        if (btn.dataset.tab === tabId) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      Object.keys(tabViews).forEach(id => {
+        if (id === tabId) {
+          tabViews[id].classList.add('active');
+        } else {
+          tabViews[id].classList.remove('active');
+        }
+      });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    if (linkViewAllHistory) {
+      linkViewAllHistory.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchTab('history');
+      });
+    }
+
+    // Init values
     if (currentGroupCode) {
       locNameDisplay.textContent = currentGroupCode;
     } else {
@@ -593,9 +1004,14 @@
       setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    // Fetch Today's Delivery
+    // ──────────────── FETCH TODAY STATUS ────────────────
     async function fetchTodayStatus() {
-      if (!currentGroupCode) return;
+      if (!currentGroupCode) {
+        statusHero.className = 'status-hero not-logged';
+        statusBadge.textContent = '⏳ NO HOME CONNECTED';
+        statusMeta.innerHTML = 'Apna House Code connect karne ke liye upar <strong>Connect / Switch</strong> par tap karein.';
+        return;
+      }
       try {
         const res = await fetch(`${API_BASE}/api/kydro/status/today?group_code=${encodeURIComponent(currentGroupCode)}`);
         if (res.ok) {
@@ -626,26 +1042,223 @@
       }
     }
 
-    // Fetch Monthly History
+    // ──────────────── FETCH MONTHLY HISTORY & LOGS ────────────────
+    function getMonthString() {
+      return `${selectedYear}-${String(selectedMonth).padStart(2, '0')}`;
+    }
+
+    function getMonthTitle() {
+      const d = new Date(selectedYear, selectedMonth - 1, 1);
+      return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+
     async function fetchMonthlyHistory() {
-      if (!currentGroupCode) return;
+      displayMonthTitle.textContent = getMonthTitle();
+
+      if (!currentGroupCode) {
+        statTotalLitres.textContent = '0L';
+        statDaysPresent.textContent = '0 Days';
+        statDaysAbsent.textContent = '0 Days';
+        statTotalBill.textContent = '₹0';
+        logCountBadge.textContent = '0 Records';
+        historyListContainer.innerHTML = `
+          <div class="empty-state" style="cursor:pointer;" onclick="document.getElementById('homeModal').classList.add('active');">
+            <div style="font-size:36px; margin-bottom:10px;">🏠</div>
+            <p style="font-weight:700; color:var(--chrome-white); font-size:15px;">No House Connected</p>
+            <p style="margin-top:6px; color:var(--neon-cyan); font-weight:600; font-size:13px;">Yahan tap karke apna House Code connect karein taaki history load ho sake ➔</p>
+          </div>
+        `;
+        quickRecentLogs.innerHTML = `
+          <div style="font-size:12px; color:var(--steel-muted); text-align:center; padding:10px; cursor:pointer;" onclick="document.getElementById('homeModal').classList.add('active');">
+            House Code connect karein to view recent logs ➔
+          </div>
+        `;
+        return;
+      }
+
+      const monthStr = getMonthString();
+
       try {
-        const d = new Date();
-        const monthStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
         const res = await fetch(`${API_BASE}/api/kydro/history?group_code=${encodeURIComponent(currentGroupCode)}&month=${monthStr}`);
         if (res.ok) {
-          const hist = await res.json();
-          const totalLitres = hist.total_litres || 0;
-          const bill = Math.round((totalLitres / 20) * 25);
-          document.getElementById('webMonthLitres').textContent = `${totalLitres}L`;
-          document.getElementById('webMonthBill').textContent = `₹${bill}`;
+          monthlyHistoryData = await res.json();
+          renderHistory(monthlyHistoryData);
         }
       } catch (e) {
-        console.error(e);
+        console.error('History fetch error:', e);
       }
     }
 
-    // Mark Present & Absent actions with conflict check
+    function renderHistory(hist) {
+      if (!hist) return;
+
+      const totalLitres = hist.total_litres || 0;
+      const daysPresent = hist.total_days_present || 0;
+      const daysAbsent = hist.total_days_absent || 0;
+      const totalCampers = totalLitres > 0 ? (totalLitres / 20) : 0;
+      const bill = Math.round(totalCampers * 25);
+
+      statTotalLitres.textContent = `${totalLitres}L`;
+      statDaysPresent.textContent = `${daysPresent} Days`;
+      statDaysAbsent.textContent = `${daysAbsent} Days`;
+      statTotalBill.textContent = `₹${bill}`;
+
+      const records = hist.records || [];
+      logCountBadge.textContent = `${records.length} Records`;
+
+      // Render History List
+      if (records.length === 0) {
+        historyListContainer.innerHTML = `
+          <div class="empty-state">
+            <div style="font-size:28px; margin-bottom:8px;">📭</div>
+            <p><strong>Iss mahine me abhi tak koi water record nahi hai.</strong></p>
+            <p style="margin-top:4px;">Paani aane par 'Today' tab se mark karein, wo yahan show hoga.</p>
+          </div>
+        `;
+        quickRecentLogs.innerHTML = `
+          <div style="font-size:12px; color:var(--chrome-muted); text-align:center; padding:10px;">
+            No logs recorded yet for this month.
+          </div>
+        `;
+      } else {
+        let fullHtml = '';
+        records.forEach(item => {
+          const isPresent = item.status === 'PRESENT';
+          const dateObj = new Date(item.date + 'T12:00:00');
+          const formattedDate = dateObj.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+          const badgeText = isPresent ? `💧 ${item.quantity_litres}L (${item.campers_count} Can)` : `❌ Absent`;
+          const timeStr = item.marked_at ? new Date(item.marked_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+
+          fullHtml += `
+            <div class="history-item ${isPresent ? 'present' : 'absent'}">
+              <div class="history-left">
+                <h4>${formattedDate}</h4>
+                <p>Marked by <strong>${item.marked_by || 'Roommate'}</strong> ${timeStr ? `• ${timeStr}` : ''}</p>
+                ${item.note ? `<div class="history-note">"${item.note}"</div>` : ''}
+              </div>
+              <div class="history-badge ${isPresent ? 'present' : 'absent'}">
+                ${badgeText}
+              </div>
+            </div>
+          `;
+        });
+        historyListContainer.innerHTML = fullHtml;
+
+        // Render Quick Recent 3 on Today tab
+        let recentHtml = '';
+        records.slice(0, 3).forEach(item => {
+          const isPresent = item.status === 'PRESENT';
+          const dateObj = new Date(item.date + 'T12:00:00');
+          const formattedDate = dateObj.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+          recentHtml += `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(7,15,38,0.7); border-radius:12px; padding:8px 12px; font-size:12px;">
+              <span><strong>${formattedDate}</strong> • ${item.marked_by || 'User'}</span>
+              <span style="font-weight:800; color:${isPresent ? 'var(--water-present)' : 'var(--water-absent)'};">${isPresent ? `✓ ${item.quantity_litres}L` : '✕ Absent'}</span>
+            </div>
+          `;
+        });
+        quickRecentLogs.innerHTML = recentHtml;
+      }
+    }
+
+    // Month Navigation Click Handlers
+    btnPrevMonth.addEventListener('click', () => {
+      selectedMonth--;
+      if (selectedMonth < 1) {
+        selectedMonth = 12;
+        selectedYear--;
+      }
+      fetchMonthlyHistory();
+    });
+
+    btnNextMonth.addEventListener('click', () => {
+      selectedMonth++;
+      if (selectedMonth > 12) {
+        selectedMonth = 1;
+        selectedYear++;
+      }
+      fetchMonthlyHistory();
+    });
+
+    // ──────────────── SHARE MONTH REPORT ON WHATSAPP ────────────────
+    btnShareReport.addEventListener('click', () => {
+      if (!monthlyHistoryData) return;
+      const hist = monthlyHistoryData;
+      const totalCampers = Math.round(hist.total_litres / 20);
+      const totalBill = totalCampers * 25;
+
+      const text = `💧 *KYDRO Water Supply Report (${displayMonthTitle.textContent})*\n` +
+                   `🏠 *Group Code:* ${currentGroupCode}\n` +
+                   `━━━━━━━━━━━━━━━━━━━\n` +
+                   `📦 *Total Water:* ${hist.total_litres}L (${totalCampers} Campers)\n` +
+                   `🟢 *Present Days:* ${hist.total_days_present} Days\n` +
+                   `🔴 *Absent Days:* ${hist.total_days_absent} Days\n` +
+                   `💰 *Rate:* ₹25 / 20L Camper\n` +
+                   `💵 *TOTAL BILL: ₹${totalBill}*\n` +
+                   `━━━━━━━━━━━━━━━━━━━\n` +
+                   `Tracked live with KYDRO - Track Every Drop.`;
+
+      const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    });
+
+    // ──────────────── CALCULATOR TAB LOGIC ────────────────
+    let calcCampers = 20;
+    let calcPeople = 4;
+    const calcRate = 25;
+
+    const calcCountCampers = document.getElementById('calcCountCampers');
+    const calcCountPeople = document.getElementById('calcCountPeople');
+    const calcResTotalLitres = document.getElementById('calcResTotalLitres');
+    const calcResTotalBill = document.getElementById('calcResTotalBill');
+    const calcResPerPerson = document.getElementById('calcResPerPerson');
+
+    function updateTabCalc() {
+      if (calcCountCampers) calcCountCampers.textContent = calcCampers;
+      if (calcCountPeople) calcCountPeople.textContent = calcPeople;
+
+      const totalL = calcCampers * 20;
+      const totalB = calcCampers * calcRate;
+      const perP = Math.round(totalB / Math.max(1, calcPeople));
+
+      if (calcResTotalLitres) calcResTotalLitres.textContent = `${totalL}L`;
+      if (calcResTotalBill) calcResTotalBill.textContent = `₹${totalB}`;
+      if (calcResPerPerson) calcResPerPerson.textContent = `₹${perP}`;
+    }
+
+    document.getElementById('calcBtnDecCampers').addEventListener('click', () => {
+      if (calcCampers > 1) { calcCampers--; updateTabCalc(); }
+    });
+    document.getElementById('calcBtnIncCampers').addEventListener('click', () => {
+      calcCampers++; updateTabCalc();
+    });
+    document.getElementById('calcBtnDecPeople').addEventListener('click', () => {
+      if (calcPeople > 1) { calcPeople--; updateTabCalc(); }
+    });
+    document.getElementById('calcBtnIncPeople').addEventListener('click', () => {
+      calcPeople++; updateTabCalc();
+    });
+
+    document.getElementById('btnShareCalcWhatsApp').addEventListener('click', () => {
+      const totalL = calcCampers * 20;
+      const totalB = calcCampers * calcRate;
+      const perP = Math.round(totalB / Math.max(1, calcPeople));
+
+      const msg = `💧 *KYDRO Water Bill Split*\n` +
+                  `━━━━━━━━━━━━━━━━━━━\n` +
+                  `📦 Total Campers: ${calcCampers} (${totalL}L)\n` +
+                  `💰 Rate: ₹25 / Camper\n` +
+                  `💵 Total Bill: ₹${totalB}\n` +
+                  `👥 Roommates: ${calcPeople} People\n` +
+                  `👉 *Per Person Share: ₹${perP}*\n` +
+                  `━━━━━━━━━━━━━━━━━━━\n` +
+                  `Calculated via KYDRO.`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+
+    updateTabCalc();
+
+    // ──────────────── MARK PRESENT & ABSENT (WITH CONFLICTS) ────────────────
     document.getElementById('btnPresent').addEventListener('click', () => {
       if (!currentGroupCode) {
         homeModal.classList.add('active');
@@ -654,7 +1267,6 @@
       }
       const note = document.getElementById('noteInput').value.trim();
       if (todayData && todayData.status === 'PRESENT') {
-        // Show conflict warning
         conflictTitle.textContent = 'Paani Pehle Se Present Hai!';
         conflictMsg.textContent = `${todayData.marked_by || 'User'} ne pehle hi aaj ${todayData.quantity_litres}L paani mark kiya hua hai. Kya aap fir bhi update lagana chahte hain?`;
         pendingAction = () => executeMark('PRESENT', selectedLitres, note);
@@ -723,7 +1335,7 @@
       }
     }
 
-    // Real-time WebSockets
+    // ──────────────── REAL-TIME WEBSOCKETS ────────────────
     function initWebSocket() {
       if (!currentGroupCode) {
         liveChip.classList.add('disconnected');
